@@ -1,6 +1,7 @@
 package translator.domain;
 
 import org.apache.commons.io.IOUtils;
+import org.apache.commons.io.input.BOMInputStream;
 import org.apache.commons.lang3.tuple.Pair;
 
 import java.io.File;
@@ -14,10 +15,10 @@ public class VocabSet {
     private String description;
     private Locale from;
     private Locale to;
-    private List<Pair<String, String>> vocab = new ArrayList<Pair<String, String>>();
+    private List<Vocab> vocab = new ArrayList<Vocab>();
 
     public VocabSet(File file) throws IOException {
-        this(file.getName().substring(0, file.getName().lastIndexOf('.')), IOUtils.readLines(new FileInputStream(file)));
+        this(file.getName().substring(0, file.getName().lastIndexOf('.')), IOUtils.readLines(new BOMInputStream(new FileInputStream(file))));
     }
 
     public VocabSet(String description, List<String> lines) {
@@ -30,7 +31,7 @@ public class VocabSet {
                 from = Locale.forLanguageTag(split[0]);
                 to = Locale.forLanguageTag(split[1]);
             } else {
-                vocab.add(Pair.of(split[0], split[1]));
+                vocab.add(new Vocab(split));
             }
         }
     }
@@ -47,7 +48,7 @@ public class VocabSet {
         return to;
     }
 
-    public List<Pair<String, String>> getVocab() {
+    public List<Vocab> getVocab() {
         return vocab;
     }
 }

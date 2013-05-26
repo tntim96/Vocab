@@ -37,7 +37,7 @@ public class Downloader {
     }
 
     public void downloadMp3(String text, Locale locale, File file) {
-//        System.out.println(String.format("Download text '%s', locale = '%s'", text, locale.getDisplayName()));
+        System.out.println(String.format("Download text '%s', locale = '%s'", text, locale.getDisplayName()));
         HttpUriRequest httpUriRequest = new HttpGet(format(mp3Url, encodeText(text), locale));
         FileOutputStream fos = null;
         try {
