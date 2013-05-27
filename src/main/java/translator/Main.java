@@ -1,10 +1,10 @@
 package translator;
 
-import org.apache.commons.lang3.tuple.Pair;
 import translator.domain.Vocab;
 import translator.domain.VocabSet;
 
 import java.io.File;
+import java.io.FileFilter;
 import java.util.Locale;
 
 import static java.lang.String.format;
@@ -22,7 +22,12 @@ public class Main {
 //        File targetDir = new File("c:/vagrant/mp3");
 //        File targetDir = new File("out/mp3");
         File targetDir = new File("e:/French");
-        for (File file : srcDir.listFiles()) {
+        for (File file : srcDir.listFiles(new FileFilter() {
+            @Override
+            public boolean accept(File file) {
+                return file.isFile() && file.getName().endsWith(".txt");
+            }
+        })) {
             VocabSet vocabSet = new VocabSet(file);
             vocabSet.getDescription();
             for (int i = 0; i < vocabSet.getVocab().size(); i++) {
